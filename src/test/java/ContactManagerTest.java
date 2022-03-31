@@ -109,4 +109,21 @@ class ContactManagerTest {
                 .isPresent());
     }
 
+
+    @Test
+    @DisplayName("Test contact creation on Developer machine")
+    public void shouldTestCreateContactOnDev() {
+        //It will verify if the environment is the correct one.
+        //IT will not fail a test, only abort it.
+        Assumptions.assumeTrue("TEST".equals(System.getProperty("ENV")));
+
+        //Instantiate the contact
+        contactManager.addContact("Maycon", "Santos", "5515987654321");
+        // Verify if the list is not empty
+        Assertions.assertFalse(contactManager.getAllContacts().isEmpty());
+        //Verify if there is only one contact on the list.
+        Assertions.assertEquals(1, contactManager.getAllContacts().size());
+
+    }
+
 }
