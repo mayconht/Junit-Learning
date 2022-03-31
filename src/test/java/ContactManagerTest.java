@@ -2,7 +2,11 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.condition.OS;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import java.util.Arrays;
+import java.util.List;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ContactManagerTest {
@@ -130,7 +134,7 @@ class ContactManagerTest {
 
     @ParameterizedTest
     @ValueSource(strings={"123456789","5515abnmjhgfd", "+551598765432", "5512987654321"})
-    @DisplayName("Should Create a Contact Repeatedly with parameters")
+    @DisplayName("Should Create a Contact Repeatedly with parameters for phone number")
     public void shouldCreateContactParametrized(String phoneNumber) {
         //It is a good practice when we are verifying random values.
         //Instantiate the contact
@@ -141,6 +145,23 @@ class ContactManagerTest {
         Assertions.assertEquals(1, contactManager.getAllContacts().size());
     }
 
+
+    @ParameterizedTest
+    @MethodSource("phoneNumberList")
+    @DisplayName("Should Create a Contact Repeatedly with parameters with Method Source for phone number")
+    public void shouldCreateContactParametrizedWithMethodSource(String phoneNumber) {
+        //It is a good practice when we are verifying random values.
+        //Instantiate the contact
+        contactManager.addContact("Maycon", "Santos", phoneNumber);
+        // Verify if the list is not empty
+        Assertions.assertFalse(contactManager.getAllContacts().isEmpty());
+        //Verify if there is only one contact on the list.
+        Assertions.assertEquals(1, contactManager.getAllContacts().size());
+    }
+
+private static List<String> phoneNumberList(){
+        return Arrays.asList("123456789","5515abnmjhgfd", "+551598765432", "5512987654321");
+}
 
 
 }
