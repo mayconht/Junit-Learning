@@ -2,7 +2,7 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.condition.OS;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -165,7 +165,7 @@ class ContactManagerTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"5512987654321", "5512987654322", "5512987654323"})
+    @CsvFileSource(resources = "/data.csv")
     @DisplayName("Should Create a Contact Repeatedly with parameters for phone number from CSV")
     public void shouldCreateContactParametrizedWithPhoneNumberFromCSVSource(String phoneNumber) {
         //It is a good practice when we are verifying random values.
