@@ -91,7 +91,7 @@ class ContactManagerTest {
     }
 
     @Test
-    @DisplayName("Should Create a Contact and search for it using Java Stream Only on Windows")
+    @DisplayName("Should Create a Contact and search for it using Java Stream Only on macOs")
     @EnabledOnOs(value = OS.MAC, disabledReason = "Enabled only on MacOs")
     public void shouldCreateContactOnlyOnMacOs() {
         //Instantiate the contact
