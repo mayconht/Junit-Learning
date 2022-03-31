@@ -2,6 +2,7 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.condition.OS;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -14,7 +15,7 @@ class ContactManagerTest {
     ContactManager contactManager;
 
     @BeforeEach
-    public void setupContactManager(){
+    public void setupContactManager() {
         contactManager = new ContactManager();
     }
 
@@ -83,8 +84,8 @@ class ContactManagerTest {
         Assertions.assertTrue(contactManager.getAllContacts().stream()
                 .anyMatch(contact ->
                         contact.getFirstName().equals("Maycon") &&
-                        contact.getLastName().equals("Santos") &&
-                        contact.getPhoneNumber().equals("5515987654321")));
+                                contact.getLastName().equals("Santos") &&
+                                contact.getPhoneNumber().equals("5515987654321")));
     }
 
     @Test
@@ -133,7 +134,7 @@ class ContactManagerTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings={"5512987654321", "5512987654322", "5512987654323"})
+    @ValueSource(strings = {"5512987654321", "5512987654322", "5512987654323"})
     @DisplayName("Should Create a Contact Repeatedly with parameters for phone number")
     public void shouldCreateContactParametrized(String phoneNumber) {
         //It is a good practice when we are verifying random values.
@@ -159,9 +160,22 @@ class ContactManagerTest {
         Assertions.assertEquals(1, contactManager.getAllContacts().size());
     }
 
-private static List<String> phoneNumberList(){
+    private static List<String> phoneNumberList() {
         return Arrays.asList("5512987654321", "5512987654322", "5512987654323");
-}
+    }
+
+    @ParameterizedTest
+    @CsvSource({"5512987654321", "5512987654322", "5512987654323"})
+    @DisplayName("Should Create a Contact Repeatedly with parameters for phone number from CSV")
+    public void shouldCreateContactParametrizedWithPhoneNumberFromCSVSource(String phoneNumber) {
+        //It is a good practice when we are verifying random values.
+        //Instantiate the contact
+        contactManager.addContact("Maycon", "Santos", phoneNumber);
+        // Verify if the list is not empty
+        Assertions.assertFalse(contactManager.getAllContacts().isEmpty());
+        //Verify if there is only one contact on the list.
+        Assertions.assertEquals(1, contactManager.getAllContacts().size());
+    }
 
 
 }
