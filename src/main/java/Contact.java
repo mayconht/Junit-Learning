@@ -63,8 +63,8 @@ public class Contact {
         if(this.phoneNumber.length() != 13){
             throw new RuntimeException("Phone number should be 13 digits long");
         }
-        if(this.phoneNumber.matches("\\d")){
-            throw new RuntimeException("Phone Number contain only numbers");
+        if(!this.phoneNumber.matches("^[0-9]*$")){
+            throw new RuntimeException("Phone Number should contain only numbers");
         }
         if(!this.phoneNumber.startsWith("55")){
             throw new RuntimeException("PhoneNumber should start with 55 that is a country code");

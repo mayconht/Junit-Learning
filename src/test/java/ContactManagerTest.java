@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.condition.OS;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ContactManagerTest {
@@ -37,38 +39,30 @@ class ContactManagerTest {
         Assertions.assertEquals(1, contactManager.getAllContacts().size());
 
         Assertions.assertTrue(contactManager.getAllContacts().stream()
-                .filter(contact -> contact.getFirstName().equals("Maycon") &&
+                .anyMatch(contact -> contact.getFirstName().equals("Maycon") &&
                         contact.getLastName().equals("Santos") &&
-                        contact.getPhoneNumber().equals("5515987654321"))
-                .findAny()
-                .isPresent());
+                        contact.getPhoneNumber().equals("5515987654321")));
     }
 
     @Test
     @DisplayName("Should not Create a Contact when First Name is null")
     public void shouldThrowRuntimeExceptionWhenFirstNameIsNULL() {
         //Instantiate the contact
-        Assertions.assertThrows(RuntimeException.class, () -> {
-            contactManager.addContact(null, "Santos", "5515987654321");
-        });
+        Assertions.assertThrows(RuntimeException.class, () -> contactManager.addContact(null, "Santos", "5515987654321"));
     }
 
     @Test
     @DisplayName("Should not Create a Contact when Last Name is null")
     public void shouldThrowRuntimeExceptionWhenSecondNameIsNULL() {
         //Instantiate the contact
-        Assertions.assertThrows(RuntimeException.class, () -> {
-            contactManager.addContact("Maycon", null, "5515987654321");
-        });
+        Assertions.assertThrows(RuntimeException.class, () -> contactManager.addContact("Maycon", null, "5515987654321"));
     }
 
     @Test
     @DisplayName("Should not Create a Contact when Phone Number is null")
     public void shouldThrowRuntimeExceptionWhenPhoneNumberIsNULL() {
         //Instantiate the contact
-        Assertions.assertThrows(RuntimeException.class, () -> {
-            contactManager.addContact("Maycon", "Santos", null);
-        });
+        Assertions.assertThrows(RuntimeException.class, () -> contactManager.addContact("Maycon", "Santos", null));
     }
 
     @Test
@@ -83,11 +77,10 @@ class ContactManagerTest {
         Assertions.assertEquals(1, contactManager.getAllContacts().size());
 
         Assertions.assertTrue(contactManager.getAllContacts().stream()
-                .filter(contact -> contact.getFirstName().equals("Maycon") &&
+                .anyMatch(contact ->
+                        contact.getFirstName().equals("Maycon") &&
                         contact.getLastName().equals("Santos") &&
-                        contact.getPhoneNumber().equals("5515987654321"))
-                .findAny()
-                .isPresent());
+                        contact.getPhoneNumber().equals("5515987654321")));
     }
 
     @Test
@@ -102,13 +95,10 @@ class ContactManagerTest {
         Assertions.assertEquals(1, contactManager.getAllContacts().size());
 
         Assertions.assertTrue(contactManager.getAllContacts().stream()
-                .filter(contact -> contact.getFirstName().equals("Maycon") &&
+                .anyMatch(contact -> contact.getFirstName().equals("Maycon") &&
                         contact.getLastName().equals("Santos") &&
-                        contact.getPhoneNumber().equals("5515987654321"))
-                .findAny()
-                .isPresent());
+                        contact.getPhoneNumber().equals("5515987654321")));
     }
-
 
     @Test
     @DisplayName("Test contact creation on Developer machine")
@@ -137,5 +127,20 @@ class ContactManagerTest {
         //Verify if there is only one contact on the list.
         Assertions.assertEquals(1, contactManager.getAllContacts().size());
     }
+
+    @ParameterizedTest
+    @ValueSource(strings={"123456789","5515abnmjhgfd", "+551598765432", "5512987654321"})
+    @DisplayName("Should Create a Contact Repeatedly with parameters")
+    public void shouldCreateContactParametrized(String phoneNumber) {
+        //It is a good practice when we are verifying random values.
+        //Instantiate the contact
+        contactManager.addContact("Maycon", "Santos", phoneNumber);
+        // Verify if the list is not empty
+        Assertions.assertFalse(contactManager.getAllContacts().isEmpty());
+        //Verify if there is only one contact on the list.
+        Assertions.assertEquals(1, contactManager.getAllContacts().size());
+    }
+
+
 
 }
