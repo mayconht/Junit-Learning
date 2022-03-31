@@ -133,7 +133,7 @@ class ContactManagerTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings={"123456789","5515abnmjhgfd", "+551598765432", "5512987654321"})
+    @ValueSource(strings={"5512987654321", "5512987654322", "5512987654323"})
     @DisplayName("Should Create a Contact Repeatedly with parameters for phone number")
     public void shouldCreateContactParametrized(String phoneNumber) {
         //It is a good practice when we are verifying random values.
@@ -160,7 +160,7 @@ class ContactManagerTest {
     }
 
 private static List<String> phoneNumberList(){
-        return Arrays.asList("123456789","5515abnmjhgfd", "+551598765432", "5512987654321");
+        return Arrays.asList("5512987654321", "5512987654322", "5512987654323");
 }
 
 
