@@ -13,7 +13,7 @@ class ContactManagerTest {
     }
 
     @Test
-    @DisplayName("Should Create a Contact and verify list")
+    @DisplayName("Should Create a Contact and verify list size")
     public void shouldCreateContact() {
         //Instantiate the contact
 
@@ -124,6 +124,18 @@ class ContactManagerTest {
         //Verify if there is only one contact on the list.
         Assertions.assertEquals(1, contactManager.getAllContacts().size());
 
+    }
+
+    @RepeatedTest(value = 5)
+    @DisplayName("Should Create a Contact Repeatedly")
+    public void shouldCreateContactRepeatedly() {
+        //It is a good practice when we are verifying random values.
+        //Instantiate the contact
+        contactManager.addContact("Maycon", "Santos", "5515987654321");
+        // Verify if the list is not empty
+        Assertions.assertFalse(contactManager.getAllContacts().isEmpty());
+        //Verify if there is only one contact on the list.
+        Assertions.assertEquals(1, contactManager.getAllContacts().size());
     }
 
 }
